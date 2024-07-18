@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>甘心笑传之踩踩背</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="email=no" />
+    <meta name="wap-font-scale" content="no" />
+    <meta name="viewport" content="user-scalable=no, width=device-width" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" type="image/png" href="assets/ico/ccb.webp" />
+    <link rel="stylesheet" href="index.css" id="skin">
+</head>
+<body>
+    <noscript>
+        器需要JavaScript才能正常操大爷的背😈！
+    </noscript>
+    <div id="pic_forload" style="opacity:0">
+        <img src="assets/webp/elep_1.webp" />
+        <img src="assets/webp/elep_2.webp" />
+        <img src="assets/webp/scene_1.webp" />
+        <img src="assets/webp/scene_2.webp" />
+        <img src="assets/webp/scene_3.webp" />
+        <img src="assets/webp/wow.webp" />
+    </div>
+    <div id="ccb_app" style="display:none">
+        <div id="ccb_screen_1">
+            <div id="ccb_large_title"><span onclick="play_ccb_sound()">甘心笑传之踩踩背</span><br>
+                <p style="font-size:16px">标题有声音，晚上请把声音调小点避免影响他人休息</p>
+                <button id="musicButton" onclick="toggleMusic()">播放</button>
+                <button id="play_ccb" onclick="play()">开始游戏😈</button>
+                <p style="font-size:16px">参考视频：<a style="color:pink" href="https://www.bilibili.com/video/BV1KH4y1A7QE" target="_blank">BV1KH4y1A7QE</a></p>
+                <p style="font-size:16px">魔改作者：<a style="color:pink" href="https://wbgx.pw" target="_blank">浅唱盒</a></p>
+                <p style="font-size:16px">原版项目：<a style="color:pink" href="https://github.com/WZQ02/ccb-simulator" target="_blank">WZQ02/ccb-simulator</a></p>
+            </div>
+        </div>
+        <div id="ccb_screen_2" style="display:none">
+            <img id="screen2_img" src="" />
+            <div style="width:100%;height:100px;text-align:center;line-height: 100px;font-size:50px;background-color:#D9CC3B;color:#FFFFFF;" onclick="ccb_start()">跳过剧情</div>
+        </div>
+        <div id="ccb_screen_3" style="display:none">
+            <img id="screen3_img" src="" />
+        </div>
+        <div id="ccb_screen_4" style="display:none">
+            <img id="screen4_img" src="assets/webp/scene_3.webp" />
+            <img id="screen4_elp" src="assets/webp/elep_2.webp" />
+            <img id="screen4_wow" src="assets/webp/wow.webp" />
+        </div>
+        <div id="ccb_screen_5" style="display:none">
+            <div id="ccb_end_title"><span id="cet_txt"></span><br>
+                <span id="cet_txt2"></span><br>
+                <span id="cet_txt3"></span><br>
+                <button onclick="reset()">再操一遍😈</button>
+            </div>
+        </div>
+        <div id="ccb_noti">
+            <div id="ccb_noti_title" style="display:none">
+                <progress id="ccb_noti_progress" max="100" style="display:none"></progress><br>
+                <span id="cnp_txt"></span>
+            </div>
+        </div>
+    </div>
+    <div id="sounds">
+        <audio src="assets/mp3/ccb.mp3" id="ccb1"></audio>
+        <audio src="assets/mp3/story_1.mp3" id="story1"></audio>
+        <audio src="assets/mp3/story_2.mp3" id="story2"></audio>
+        <audio src="assets/mp3/wow_1.mp3" id="wow_1"></audio>
+        <audio src="assets/mp3/wow_2.mp3" id="wow_2"></audio>
+        <audio src="assets/mp3/fail.mp3" id="fail"></audio>
+        <audio id="backgroundMusic" src="assets/mp3/BV1j6421Z7ea.mp3" loop></audio>
+    </div>
+</body>
+<script>
+    const app_date = "2024/7/19",app_name = "wbgx.pw（ccb）",app_ver = "114514"
+    const app = document.getElementById("ccb_app")
+    const screen1 = document.getElementById("ccb_screen_1")
+    const screen2 = document.getElementById("ccb_screen_2")
+    const screen3 = document.getElementById("ccb_screen_3")
+    const screen4 = document.getElementById("ccb_screen_4")
+    const screen5 = document.getElementById("ccb_screen_5")
+    const progress = document.getElementById("ccb_noti_progress")
+
+    //display app screen only when js is enabled
+    app.style = ""
+    screen1.style = ""
+
+    let ccb_started,ccb_evl1,cb_count=0,first_click_time,last_click_time,score=0,tps,cb_allow,cmi,ptm1,ptm2
+
+    function play() {
+        document.getElementById("pic_forload").style.display = "none"
+        screen1.style.display = "none"
+        screen2.style.display = ""
+        const img = document.getElementById("screen2_img")
+        img.src = "assets/webp/scene_1.webp"
+        document.getElementById("story1").play()
+        ptm1 = setTimeout(()=>{
+            img.src = "assets/webp/scene_2.webp"
+        },3600)
+        ptm2 = setTimeout(()=>{
+            ccb_start()
+        },11000)
+    }
+    function play_ccb_sound() {
+        document.getElementById("ccb1").currentTime = 0
+        document.getElementById("ccb1").play()
+    }
+    function ccb_start() {
+        clearTimeout(ptm1)
+        clearTimeout(ptm2)
+        if (ccb_started) {
+            return
+        }
+        ccb_started = 1
+        document.getElementById("story1").pause()
+        document.getElementById("story2").play()
+        screen2.style.display = "none"
+        screen3.style.display = ""
+        const img = document.getElementById("screen3_img")
+        let a = setInterval(()=>{
+            img.src = "assets/webp/elep_1.webp"
+            setTimeout(()=>{
+                img.src = "assets/webp/elep_2.webp"
+            },100)
+        },200)
+        setTimeout(()=>{
+            img.style = "left:calc(var(--ccb_font_size)*4)"
+        },50)
+        setTimeout(()=>{
+            document.getElementById("cnp_txt").innerText = "快点击操操屏幕，点击啊，雪梨，NMSL😡！"
+            document.getElementById("ccb_noti_title").style = "display:block"
+        },3500)
+        setTimeout(()=>{
+            clearInterval(a)
+            img.style = "left:calc(var(--ccb_font_size)*100);bottom:calc(var(--ccb_font_size)*360)"
+        },4000)
+        setTimeout(()=>{
+            ccb_main()
+        },4400)
+    }
+    function ccb_main() {
+        cb_allow = 1
+        screen3.style.display = "none"
+        screen4.style.display = ""
+        progress.style.display = ""
+        progress.value = 100
+        const img = document.getElementById("screen4_elp")
+        setTimeout(()=>{
+            img.style = "bottom:0px"
+        },50)
+        ccb_evl1 = document.body.addEventListener("click",ccb_click)
+        cmi = setInterval(()=>{
+            progress.value = progress.value - 1
+            if (progress.value <= 0) {
+                over()
+            }
+        },10)
+    }
+    function ccb_click() {
+        if (!cb_allow) {
+            return
+        }
+        if (!first_click_time) {
+            first_click_time = Date.now()
+            last_click_time = Date.now()
+            scorec(5)
+        } else {
+            let tm = Math.pow(last_click_time-Date.now()+1000,2)
+            last_click_time = Date.now()
+            scorec(Math.ceil(tm/200000))
+            tps = Math.floor(cb_count/(last_click_time - first_click_time)*10000)/10
+            document.getElementById("cet_txt3").innerText = "CPS: "+tps
+        }
+        document.getElementById("cet_txt2").innerText = "CCB: "+score
+        const img = document.getElementById("screen4_elp")
+        const wow = document.getElementById("screen4_wow")
+        img.style.transition = "none"
+        gen_audio_el("assets/mp3/wow_1.mp3")
+        wow.style = "display:block;transition:none"
+        setTimeout(()=>{
+            wow.style = "display:block;width:calc(var(--ccb_font_size)*25);left:calc(var(--ccb_font_size)*-7);bottom:calc(var(--ccb_font_size)*-4)"
+        },5)
+        cb_count++
+        document.getElementById("cnp_txt").innerText = "操大爷背次数："+cb_count
+        progress.value += 40
+    }
+    function gen_audio_el(url,removeafter) {
+        const el = document.createElement("audio")
+        el.src = url
+        document.body.appendChild(el)
+        el.play()
+        setTimeout(()=>{
+            document.body.removeChild(el)
+        },(removeafter || 1000))
+    }
+    function over() {
+        cb_allow = 0
+        clearInterval(cmi)
+        document.body.removeEventListener("click",ccb_click)
+        document.getElementById("ccb_noti_title").style = "display:none"
+        if (cb_count) {
+            document.getElementById("cet_txt").innerText = "人才！您一共操大爷的背"+cb_count+"次！"
+            document.getElementById("wow_2").play()
+        } else {
+            document.getElementById("cet_txt").innerText = "人机东西，操背失败！"
+            document.getElementById("screen4_elp").style = "left:calc(var(--ccb_font_size)*100)"
+            document.getElementById("fail").play()
+        }
+        setTimeout(()=>{
+            screen4.style.display = "none"
+            screen5.style.display = ""
+        },1000)
+    }
+    function scorec(value) {
+        score += value
+        const ss = document.createElement("span")
+        ss.className = "score_show"
+        ss.innerText = "+"+value
+        document.body.appendChild(ss)
+        setTimeout(()=>{
+            document.body.removeChild(ss)
+        },500)
+    }
+    function reset() {
+        screen5.style.display = "none"
+        screen1.style.display = ""
+        ccb_started=ccb_evl1=first_click_time=last_click_time=tps=cb_allow=cmi=null
+        cb_count=score=0
+        document.getElementById("screen3_img").style = ""
+        document.getElementById("screen4_elp").style = ""
+        document.getElementById("screen4_wow").style = ""
+        document.getElementById("cet_txt").innerText = ""
+        document.getElementById("cet_txt2").innerText = ""
+        document.getElementById("cet_txt3").innerText = ""
+        document.getElementById("story1").currentTime = 0
+
+    }
+    console.log(`${app_name} version ${app_ver}. Last updated ${app_date}.`)
+</script>
+
+    <script>
+        const musicButton = document.getElementById('musicButton');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        function toggleMusic() {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                musicButton.textContent = '暂停';
+            } else {
+                backgroundMusic.pause();
+                musicButton.textContent = '播放';
+            }
+        }
+    </script>
