@@ -131,11 +131,52 @@ a {
      <h1>实时关注浅唱大帝的群直播间</h1>
      <p>方便为各位ICHNAG查看大帝在群里的内容，吃瓜</p>
 
-      <iframe src="https://embed-clock.onlinealarmkur.com/zh-cn/#Asia%2FShanghai" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="450px"> </iframe>
+     <div id="time"></div>
+	    
+    <script>
+         function getTime() {
+            var date = new Date();
+
+            // 年、月、日
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+
+            // 时、分、秒
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+
+            // 实时显示
+            var element = document.getElementById('time');
+            element.innerHTML = '<h3>' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+        }
+        setInterval('getTime()', 1000);
+    </script>
+
+	    
       <iframe src="https://ccb.abaing.top/livea" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="450px"> </iframe>
+	    
 	    <div id="cyTvbarrage" role="cylabs" data-use="tvbarrage"></div>
 	    <script type="text/javascript" charset="utf-8" src="http://cy-cdn.kuaizhan.com/js/??lib/jquery.js,changyan.labs.js?appid=cywXH0oEv"></script>
-            
+
+
+	    <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="请将此处替换为配置SourceID的语句" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = 'cywXH0oEv'; 
+var conf = 'prod_1958c8a51e3fe478d0e77f311232ba68'; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 1000) {
+var head = document.getElementsByTagName('head')[0]||document.head||document.documentElement;
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.charset = 'utf-8';
+script.id = 'changyan_mobile_js';
+script.src = 'https://cy-cdn.kuaizhan.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf;
+head.appendChild(script);
+} else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://cy-cdn.kuaizhan.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
       <a href="https://wbgx.pw" target="_blank">powered by wbgx.pw(浅唱盒）</a>
 
     </div> <!-- main -->
