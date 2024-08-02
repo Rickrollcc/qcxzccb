@@ -19,8 +19,7 @@
 		"whitelist": [
 				""
 		],
-		"url": "https://a1.abaing.top/",
-	         player.emit('resourceReady', [{"name":"主路线","url":"https://a1.abaing.top"},{"name":"CN线路","url":"https://a1.abaing.top/cn"}])
+		"url": "https://a1.abaing.top/cn",
 		"width": null,
 		"height": 450,
 		"autoplay": true,
@@ -28,15 +27,20 @@
 		"playbackRate": [
 				0.25,
 				0.5,
+				0.75,
 				1,
+				1.25,
 				1.5,
+				1.75,
 				2,
 				2.5,
 				3
 		],
-		"screenShot": true
+		"screenShot": true,
+		"pip": true,
+		"keyShortcut": "on"
       });
-      
+      player.emit('resourceReady', [{"name":"CN线路","url":"https://a1.abaing.top/cn"},{"name":"备用线路","url":"https://a1.abaing.top"}])
           </script>
   </body>
 </html>
